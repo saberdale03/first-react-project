@@ -13,7 +13,7 @@ const useFetch = (url) => {
         .then((res) => {
           if (!res.ok) {
             throw Error(
-              "404 Error: Tangina boi, di nageexist yung data sa resource."
+              "404 Error: Di nageexist yung data sa resource man."
             );
           }
           return res.json();

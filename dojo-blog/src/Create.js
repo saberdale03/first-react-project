@@ -29,7 +29,7 @@ const Create = () => {
 
   return (
     <div className="create">
-      <h2>Add a New Fucking Blog!</h2>
+      <h2>Add Your Story!</h2>
       <form onSubmit={handleSubmit}>
         <label>Blog Title:</label>
         <input
@@ -52,6 +52,7 @@ const Create = () => {
           <option value="Mario">Mario</option>
           <option value="Yoshi">Yoshi</option>
           <option value="Dale">Dale</option>
+          <option value="Dale">Shane</option>
           <option value="Hev Abi">Hev Abi</option>
         </select>
         {isLoading && <button>Minemekus Mekus Na Brother...</button>} 
