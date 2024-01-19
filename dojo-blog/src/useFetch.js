@@ -1,16 +1,20 @@
 import { useState, useEffect } from "react";
 
 const useFetch = (url) => {
-    const [data, setData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
-  
-    useEffect(() => {
-      setTimeout(() => {
-        fetch(url)
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const abortController = new AbortController();
+
+    setTimeout(() => {
+      fetch(url, { signal: abortController.signal })
         .then((res) => {
           if (!res.ok) {
-            throw Error('404 Error: Tangina boi, di nageexist yung data sa resource.');
+            throw Error(
+              "404 Error: Tangina boi, di nageexist yung data sa resource."
+            );
           }
           return res.json();
         })
@@ -20,13 +24,18 @@ const useFetch = (url) => {
           setError(null);
         })
         .catch((err) => {
-          setError(err.message);
-          setIsLoading(false);
-        })
-      }, 1000);
-    }, []);   
+          if (err.name === "AbortError") {
+            console.log("Fetch Aborted");
+          } else {
+            setError(err.message);
+            setIsLoading(false);
+          }
+        });
+    }, 1000);
+    return () => abortController.abort();
+  }, [url]);
 
-    return {data, isLoading, error};
-}
- 
+  return { data, isLoading, error };
+};
+
 export default useFetch;
